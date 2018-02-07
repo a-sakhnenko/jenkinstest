@@ -1,5 +1,7 @@
-Closure job = {
-    name    'testing-to-build'
+package scripts
+
+job('testing-to-build') {
+
     scm{
         git('git://github.com/a-sakhnenko/jenkinstest')
     }
