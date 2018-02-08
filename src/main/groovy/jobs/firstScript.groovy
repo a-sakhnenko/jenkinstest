@@ -11,6 +11,7 @@ job('testing-to-build') {
             remote {
                 name('origin')
                 url("$projectURL")
+                credentials('a-sakhnenko')
             }
             branch("$branchName")
         }
