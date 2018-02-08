@@ -10,7 +10,7 @@ job('testing-to-build') {
         git {
             remote {
                 name('origin')
-                github('a-sakhnenko/jenkinstest', 'ssh')
+                git(projectURL)
 
                 credentials('f0558399-00e7-44a0-98b5-b9e5d5d0cf9d')
             }
@@ -23,9 +23,10 @@ job('testing-to-build') {
     }
     publishers {
         extendedEmail {
+            recipientList('$DEFAULT_RECIPIENTS')
             attachBuildLog(true)
-            defaultSubject('Oops')
-            defaultContent('Something broken')
+            defaultSubject('$DEFAULT_SUBJECT')
+            defaultContent('$DEFAULT_CONTENT')
             contentType('text/html')
             triggers {
                 failure() {
