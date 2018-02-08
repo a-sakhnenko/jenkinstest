@@ -24,6 +24,9 @@ job('testing-to-build') {
     publishers {
         extendedEmail {
             attachBuildLog(true)
+            defaultSubject('Oops')
+            defaultContent('Something broken')
+            contentType('text/html')
             triggers {
                 failure() {
                     sendTo {
