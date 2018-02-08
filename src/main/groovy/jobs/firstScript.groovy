@@ -10,7 +10,8 @@ job('testing-to-build') {
         git {
             remote {
                 name('origin')
-                url("$projectURL")
+                github('a-sakhnenko/jenkinstest', 'ssh')
+
                 credentials('a-sakhnenko')
             }
             branch("$branchName")
