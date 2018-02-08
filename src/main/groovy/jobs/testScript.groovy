@@ -1,11 +1,11 @@
-package scripts
+package jobs
 
 job('testing-to-build') {
 
-    scm{
+    scm {
         git('git://github.com/a-sakhnenko/jenkinstest')
     }
-    steps{
+    steps {
         maven('-e clean test')
     }
 }
