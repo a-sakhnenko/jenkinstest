@@ -12,7 +12,7 @@ job('testing-to-build') {
                 name('origin')
                 github('a-sakhnenko/jenkinstest', 'ssh')
 
-                credentials('a-sakhnenko')
+                credentials('f0558399-00e7-44a0-98b5-b9e5d5d0cf9d')
             }
             branch("$branchName")
         }
