@@ -10,7 +10,7 @@ job('testing-to-build') {
         git {
             remote {
                 name('origin')
-                git(projectURL)
+                url(projectURL)
 
                 credentials('f0558399-00e7-44a0-98b5-b9e5d5d0cf9d')
             }
