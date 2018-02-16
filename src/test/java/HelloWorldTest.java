@@ -13,4 +13,9 @@ public class HelloWorldTest {
         assertTrue(actual.contains("Hello"));
         assertTrue(actual.contains(who));
     }
+
+    @Test
+    public void giveMeFiveTest() {
+        assertEquals(5, instance.giveMeFive());
+    }
 }
