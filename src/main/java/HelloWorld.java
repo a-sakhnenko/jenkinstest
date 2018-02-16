@@ -1,6 +1,6 @@
 public class HelloWorld {
     public String hello(String name) {
-        return "Hello, " + name.toUpperCase();
+        return "Hello, " + name;
     }
 
     public int giveMeFive() {
