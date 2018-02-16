@@ -7,10 +7,15 @@ public class HelloWorldTest {
     private HelloWorld instance = new HelloWorld();
 
     @Test
-    public void hello() {
+    public void helloTest() {
         String who = "World";
         final String actual = instance.hello(who);
         assertTrue(actual.contains("Hello"));
         assertTrue(actual.contains(who));
+    }
+
+    @Test
+    public void giveMeFiveTest() {
+        assertEquals(5, instance.giveMeFive());
     }
 }
