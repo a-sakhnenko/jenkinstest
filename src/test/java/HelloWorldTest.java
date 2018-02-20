@@ -12,5 +12,6 @@ public class HelloWorldTest {
         final String actual = instance.hello(who);
         assertTrue(actual.contains("Hello"));
         assertTrue(actual.contains(who));
+        assertTrue(actual.contains("Hi"));
     }
 }
