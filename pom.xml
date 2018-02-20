@@ -35,6 +35,14 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.gitlab/java-gitlab-api -->
+        <dependency>
+            <groupId>org.gitlab</groupId>
+            <artifactId>java-gitlab-api</artifactId>
+            <version>4.0.0</version>
+        </dependency>
+
+
         <!-- https://mvnrepository.com/artifact/org.jenkins-ci.main/maven-plugin -->
         <dependency>
             <groupId>org.jenkins-ci.main</groupId>
