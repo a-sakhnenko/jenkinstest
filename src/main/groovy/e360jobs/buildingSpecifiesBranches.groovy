@@ -23,6 +23,11 @@ for (branchName in branchNames) {
                     credentials('e360-ssh-Sakhnenko')
                 }
                 branch("$branchName")
+                extensions {
+                    mergeOptions {
+                        branch('master')
+                    }
+                }
             }
         }
         triggers {
