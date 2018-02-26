@@ -1,7 +1,9 @@
 package jobs
 
+import javaposse.jobdsl.dsl.DslFactory
 import javaposse.jobdsl.dsl.Job
 import javaposse.jobdsl.dsl.JobManagement
+import javaposse.jobdsl.dsl.JobParent
 import javaposse.jobdsl.dsl.jobs.FreeStyleJob
 
 class JobGenerator {
@@ -17,7 +19,7 @@ class JobGenerator {
 
     def createJob(String name) {
 //        new FreeStyleJob(JobManagement.newInstance(), "FROMCLASS-$name")
-        job("FROMCLASS-" + name)
+        job("FROMCLASS-" + name) {}
     }
 
     static Job withTrigger(Job job) {
