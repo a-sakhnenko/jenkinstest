@@ -56,12 +56,12 @@
             <version>2.104</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.codehaus.groovy/groovy-all -->
-        <dependency>
-            <groupId>org.codehaus.groovy</groupId>
-            <artifactId>groovy-all</artifactId>
-            <classifier>indy</classifier>
-            <version>2.4.13</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.codehaus.groovy</groupId>-->
+            <!--<artifactId>groovy-all</artifactId>-->
+            <!--<classifier>indy</classifier>-->
+            <!--<version>2.4.13</version>-->
+        <!--</dependency>-->
         <!-- https://mvnrepository.com/artifact/org.jenkins-ci.plugins/job-dsl-core -->
         <dependency>
             <groupId>org.jenkins-ci.plugins</groupId>
