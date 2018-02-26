@@ -1,5 +1,6 @@
 package jobs
 
+import hudson.model.FreeStyleBuild
 import javaposse.jobdsl.dsl.DslFactory
 import javaposse.jobdsl.dsl.Job
 import javaposse.jobdsl.dsl.JobManagement
@@ -59,8 +60,8 @@ class JobGenerator {
         }
     }
 
-    def createReleaseJob() {
-        def job = job("FROMCLASS-$project-merge-release-to-master-and-develop") {
+    static def createReleaseJob(Job job) {
+        job.with{
             parameters {
                 gitParam('RELEASE') {
                     description('description')
@@ -89,8 +90,8 @@ class JobGenerator {
         withScm(job, '$RELEASE', true)
     }
 
-    def createBuildJob(String branchName) {
-        def job = job("FROMCLASS-$project-build-branch-${branchName}")
+    static def createBuildJob(Job job, String branchName) {
+//        def job = freeStyleJob("FROMCLASS-$project-build-branch-${branchName}")
         withScm(job, branchName, false)
         job
         .with {

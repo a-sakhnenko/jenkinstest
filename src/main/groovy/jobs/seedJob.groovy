@@ -6,9 +6,10 @@ def projectURL = "git@git.epam.com:${project}.git"
 
 def generator = new JobGenerator(project, projectURL, credentials)
 
-generator.createBuildJob('develop')
 
-generator.createBuildJob('master')
+generator.createBuildJob(job("FROMCLASS-$project-build-branch-develop"), 'develop')
 
-generator.createReleaseJob()
+generator.createBuildJob(job("FROMCLASS-$project-build-branch-master"),'master')
+
+generator.createReleaseJob(job("FROMCLASS-$project-merge-release-to-master-and-develop"))
 
