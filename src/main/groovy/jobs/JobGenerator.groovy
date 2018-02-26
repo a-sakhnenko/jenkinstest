@@ -12,12 +12,6 @@ class JobGenerator {
     static String projectURL
     static String credentials
 
-    def createJob(String name) {
-//        new FreeStyleJob(JobManagement.newInstance(), "FROMCLASS-$name")
-        def job = job("FROMCLASS-" + name) {}
-        job
-    }
-
     static Job withTrigger(Job job) {
         job.with {
             triggers {
@@ -27,14 +21,14 @@ class JobGenerator {
         job
     }
 
-    static def withScm(Job job, String branchName, boolean isRelease) {
+    static def withScm(Job job, String branchName, boolean isRelease, String cred) {
         job.with {
             scm {
                 git {
                     remote {
                         name('origin')
                         url("$projectURL")
-                        credentials("$credentials")
+                        credentials(cred)
                         refspec('+refs/heads/releases/*:refs/remotes/origin/releases/* +refs/heads/master:refs/remotes/origin/master')
                     }
                     branch("$branchName")
@@ -54,7 +48,7 @@ class JobGenerator {
         }
     }
 
-    static def createReleaseJob(Job job) {
+    static def createReleaseJob(Job job, String cred) {
         job.with{
             parameters {
                 gitParam('VERSION') {
@@ -81,12 +75,12 @@ class JobGenerator {
             }
 
         }
-        withScm(job, 'release-$VERSION', false)
+        withScm(job, 'release-$VERSION', false, cred)
     }
 
-    static def createBuildJob(Job job, String branchName) {
+    static def createBuildJob(Job job, String branchName, String cred) {
 //        def job = freeStyleJob("FROMCLASS-$project-build-branch-${branchName}")
-        withScm(job, branchName, false)
+        withScm(job, branchName, false, cred)
         job
         .with {
             publishers {
