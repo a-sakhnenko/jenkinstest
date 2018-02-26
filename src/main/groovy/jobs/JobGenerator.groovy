@@ -63,10 +63,10 @@ class JobGenerator {
     static def createReleaseJob(Job job) {
         job.with{
             parameters {
-                gitParam('RELEASE') {
+                gitParam('VERSION') {
                     description('description')
                     sortMode('DESCENDING_SMART')
-                    type('BRANCH')
+                    type('TAG')
                 }
             }
 
@@ -75,7 +75,7 @@ class JobGenerator {
                     pushOnlyIfSuccess()
                     pushMerge()
                     branch('origin', 'master')
-                    tag('origin', '$TAG') {
+                    tag('origin', '$VERSION') {
                         update()
                     }
                 }
@@ -87,7 +87,7 @@ class JobGenerator {
             }
 
         }
-        withScm(job, '$RELEASE', true)
+        withScm(job, 'release-$VERSION', false)
     }
 
     static def createBuildJob(Job job, String branchName) {
