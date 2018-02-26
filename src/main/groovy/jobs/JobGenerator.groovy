@@ -60,9 +60,7 @@ class JobGenerator {
     }
 
     def createReleaseJob() {
-        def job = createJob("$project-merge-release-to-master-and-develop")
-        job
-        .with {
+        def job = job("FROMCLASS-$project-merge-release-to-master-and-develop") {
             parameters {
                 gitParam('RELEASE') {
                     description('description')
@@ -92,7 +90,7 @@ class JobGenerator {
     }
 
     def createBuildJob(String branchName) {
-        def job = createJob("$project-build-branch-${branchName}")
+        def job = job("FROMCLASS-$project-build-branch-${branchName}")
         withScm(job, branchName, false)
         job
         .with {
