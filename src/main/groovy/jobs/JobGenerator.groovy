@@ -50,7 +50,7 @@ class JobGenerator {
                             mergeOptions {
                                 remote('origin')
                                 branch('develop')
-                                fastForwardMode(FastForwardMergeMode.NO_FF)
+//                                fastForwardMode(FastForwardMergeMode.NO_FF)
                                 strategy('recursive')
                             }
                         }
