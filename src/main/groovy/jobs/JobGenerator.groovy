@@ -1,9 +1,10 @@
 package jobs
 
+import javafx.util.Builder
 import javaposse.jobdsl.dsl.DslFactory
 import javaposse.jobdsl.dsl.Job
 
-class JobGenerator {
+class JobGenerator implements Builder<Job>{
     String project
     String projectURL
     String credentials
@@ -87,7 +88,7 @@ class JobGenerator {
         this
     }
 
-    def build() {
+    Job build() {
         job
     }
 
