@@ -10,7 +10,7 @@ import javaposse.jobdsl.dsl.jobs.FreeStyleJob
 class JobGenerator {
     static String project
     static String projectURL
-    static String credentials = 'e360-ssh-Sakhnenko'
+    static String credentials
 
     def createJob(String name) {
 //        new FreeStyleJob(JobManagement.newInstance(), "FROMCLASS-$name")
@@ -34,7 +34,7 @@ class JobGenerator {
                     remote {
                         name('origin')
                         url("$projectURL")
-                        credentials(credentials)
+                        credentials("$credentials")
                         refspec('+refs/heads/releases/*:refs/remotes/origin/releases/* +refs/heads/master:refs/remotes/origin/master')
                     }
                     branch("$branchName")
