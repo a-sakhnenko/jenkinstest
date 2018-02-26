@@ -8,9 +8,9 @@ import javaposse.jobdsl.dsl.JobParent
 import javaposse.jobdsl.dsl.jobs.FreeStyleJob
 
 class JobGenerator {
-    String project
-    String projectURL
-    String credentials
+    static String project
+    static String projectURL
+    static String credentials
 
     JobGenerator(String project, String projectURL, String credentials) {
         this.project = project
