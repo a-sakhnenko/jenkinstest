@@ -1,11 +1,6 @@
 package jobs
 
-import hudson.model.FreeStyleBuild
-import javaposse.jobdsl.dsl.DslFactory
 import javaposse.jobdsl.dsl.Job
-import javaposse.jobdsl.dsl.JobManagement
-import javaposse.jobdsl.dsl.JobParent
-import javaposse.jobdsl.dsl.jobs.FreeStyleJob
 
 class JobGenerator {
     static String project
@@ -28,7 +23,7 @@ class JobGenerator {
                     remote {
                         name('origin')
                         url("$projectURL")
-                        credentials(cred)
+                        credentials('e360-ssh-Sakhnenko')
                         refspec('+refs/heads/releases/*:refs/remotes/origin/releases/* +refs/heads/master:refs/remotes/origin/master')
                     }
                     branch("$branchName")
