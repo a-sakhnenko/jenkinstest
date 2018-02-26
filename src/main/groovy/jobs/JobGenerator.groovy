@@ -1,7 +1,6 @@
 package jobs
 
 import javaposse.jobdsl.dsl.DslFactory
-import javaposse.jobdsl.dsl.*
 import javaposse.jobdsl.dsl.Job
 
 class JobGenerator {
@@ -9,83 +8,87 @@ class JobGenerator {
     String projectURL
     String credentials
     DslFactory dslFactory
+    /* Default */
     Job job
 
-    Job withTrigger() {
-        job.with {
-            triggers {
-                gitlabPush {
-                    buildOnMergeRequestEvents(false)
-                    buildOnPushEvents(false)
-                    enableCiSkip(false)
-                    setBuildDescription(false)
-                    rebuildOpenMergeRequest('never')
-                }
-                scm('H/5 * * * *')
-            }
-        }
-        job
+    JobGenerator(String project, String projectURL, String credentials, DslFactory dslFactory, String name) {
+        this.project = project
+        this.projectURL = projectURL
+        this.credentials = credentials
+        this.dslFactory = dslFactory
+        job = dslFactory.job(name)
     }
 
-    def withScm(String branchName, boolean isRelease) {
-        job.with {
-            scm {
-                git {
-                    remote {
-                        name('origin')
-                        url("$projectURL")
-                        credentials('e360-ssh-Sakhnenko')
-                        println()
-                        refspec('+refs/heads/releases/*:refs/remotes/origin/releases/* +refs/heads/master:refs/remotes/origin/master')
-                    }
-                    branch("$branchName")
-                    if (isRelease) {
-                        extensions {
-                            wipeOutWorkspace()
-                            mergeOptions {
-                                remote('origin')
-                                branch('develop')
+    JobGenerator withTrigger() {
+        job.triggers {
+            gitlabPush {
+                buildOnMergeRequestEvents(false)
+                buildOnPushEvents(false)
+                enableCiSkip(false)
+                setBuildDescription(false)
+                rebuildOpenMergeRequest('never')
+            }
+            scm('H/5 * * * *')
+        }
+        this
+    }
+
+    JobGenerator withScm(String branchName, boolean isRelease) {
+        job.scm {
+            git {
+                remote {
+                    name('origin')
+                    url("$projectURL")
+                    credentials('e360-ssh-Sakhnenko')
+                    println()
+                    refspec('+refs/heads/releases/*:refs/remotes/origin/releases/* +refs/heads/master:refs/remotes/origin/master')
+                }
+                branch("$branchName")
+                if (isRelease) {
+                    extensions {
+                        wipeOutWorkspace()
+                        mergeOptions {
+                            remote('origin')
+                            branch('develop')
 //                                fastForwardMode(FastForwardMergeMode.NO_FF)
-                                strategy('recursive')
-                            }
+                            strategy('recursive')
                         }
                     }
                 }
             }
         }
+        this
     }
 
-    def createReleaseJob(DslFactory factory) {
-        dslFactory = factory
-        this.job = dslFactory.job("FROMCLASS-jenkinstest-merge-release-to-master-and-develop")
-        job.with{
-            parameters {
-                gitParam('VERSION') {
-                    description('description')
-                    sortMode('DESCENDING_SMART')
-                    type('TAG')
-                }
+    def createReleaseJob() {
+        job.parameters {
+            gitParam('VERSION') {
+                description('description')
+                sortMode('DESCENDING_SMART')
+                type('TAG')
             }
-
-            publishers {
-                git {
-                    pushOnlyIfSuccess()
-                    pushMerge()
-                    branch('origin', 'master')
-                    tag('origin', '$VERSION') {
-                        update()
-                    }
-                }
-                git {
-                    pushOnlyIfSuccess()
-                    pushMerge()
-                    branch('origin', 'develop')
-                }
-            }
-
         }
-        withScm('release-$VERSION', false)
-        withTrigger()
+
+        job.publishers {
+            git {
+                pushOnlyIfSuccess()
+                pushMerge()
+                branch('origin', 'master')
+                tag('origin', '$VERSION') {
+                    update()
+                }
+            }
+            git {
+                pushOnlyIfSuccess()
+                pushMerge()
+                branch('origin', 'develop')
+            }
+        }
+        this
+    }
+
+    def build() {
+        job
     }
 
 //    static def createBuildJob(Job job, String branchName, String cred) {
