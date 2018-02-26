@@ -17,7 +17,7 @@ class JobGenerator {
 
     def createJob(String name) {
 //        new FreeStyleJob(JobManagement.newInstance(), "FROMCLASS-$name")
-        job("FROMCLASS-$name")
+        job("FROMCLASS-" + name)
     }
 
     static Job withTrigger(Job job) {
