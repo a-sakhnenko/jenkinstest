@@ -15,8 +15,9 @@ class JobGenerator {
         this.credentials = credentials
     }
 
-    static def createJob(String name) {
-        new FreeStyleJob(JobManagement.newInstance(), "FROMCLASS-$name")
+    def createJob(String name) {
+//        new FreeStyleJob(JobManagement.newInstance(), "FROMCLASS-$name")
+        job("FROMCLASS-$name")
     }
 
     static Job withTrigger(Job job) {
