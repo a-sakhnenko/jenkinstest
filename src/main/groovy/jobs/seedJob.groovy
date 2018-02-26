@@ -6,13 +6,15 @@ def project = 'Aleksandr_Sakhnenko/jenkinstest'
 def credentials = 'e360-ssh-Sakhnenko'
 def projectURL = "git@git.epam.com:${project}.git"
 
-JobGenerator.project = project
-JobGenerator.credentials = credentials
-JobGenerator.projectURL = projectURL
+def generator = new JobGenerator()
+
+generator.project = project
+generator.credentials = credentials
+generator.projectURL = projectURL
 
 //JobGenerator.createBuildJob(job("FROMCLASS-jenkinstest-build-branch-develop"), 'develop', credentials)
 //
 //JobGenerator.createBuildJob(job("FROMCLASS-jenkinstest-build-branch-master"),'master', credentials)
 
-JobGenerator.createReleaseJob(this as DslFactory)
+generator.createReleaseJob(this as DslFactory)
 
