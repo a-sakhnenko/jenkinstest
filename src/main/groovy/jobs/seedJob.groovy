@@ -7,6 +7,7 @@ def projectURL = "git@git.epam.com:${project}.git"
 JobGenerator.project = project
 JobGenerator.credentials = credentials
 JobGenerator.projectURL = projectURL
+JobGenerator.factory
 
 JobGenerator.createBuildJob(job("FROMCLASS-jenkinstest-build-branch-develop"), 'develop', credentials)
 

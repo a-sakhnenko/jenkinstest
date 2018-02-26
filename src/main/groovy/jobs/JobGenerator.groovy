@@ -1,15 +1,24 @@
 package jobs
 
+import javaposse.jobdsl.dsl.DslFactory
 import javaposse.jobdsl.dsl.Job
 
 class JobGenerator {
     static String project
     static String projectURL
     static String credentials
+    static DslFactory factory
 
     static Job withTrigger(Job job) {
         job.with {
             triggers {
+                gitlabPush {
+                    buildOnMergeRequestEvents(false)
+                    buildOnPushEvents(false)
+                    enableCiSkip(false)
+                    setBuildDescription(false)
+                    rebuildOpenMergeRequest('never')
+                }
                 scm('H/5 * * * *')
             }
         }
@@ -24,6 +33,7 @@ class JobGenerator {
                         name('origin')
                         url("$projectURL")
                         credentials('e360-ssh-Sakhnenko')
+                        println()
                         refspec('+refs/heads/releases/*:refs/remotes/origin/releases/* +refs/heads/master:refs/remotes/origin/master')
                     }
                     branch("$branchName")
@@ -44,7 +54,8 @@ class JobGenerator {
     }
 
     static def createReleaseJob(Job job, String cred) {
-        job.with{
+
+        factory.job().with{
             parameters {
                 gitParam('VERSION') {
                     description('description')
