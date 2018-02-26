@@ -1,15 +1,17 @@
 package jobs
 
 import javaposse.jobdsl.dsl.DslFactory
+import javaposse.jobdsl.dsl.*
 import javaposse.jobdsl.dsl.Job
 
 class JobGenerator {
-    static String project
-    static String projectURL
-    static String credentials
-    static DslFactory factory
+    String project
+    String projectURL
+    String credentials
+    DslFactory dslFactory
+    Job job
 
-    static Job withTrigger(Job job) {
+    Job withTrigger() {
         job.with {
             triggers {
                 gitlabPush {
@@ -25,7 +27,7 @@ class JobGenerator {
         job
     }
 
-    static def withScm(Job job, String branchName, boolean isRelease, String cred) {
+    def withScm(String branchName, boolean isRelease) {
         job.with {
             scm {
                 git {
@@ -53,9 +55,10 @@ class JobGenerator {
         }
     }
 
-    static def createReleaseJob(Job job, String cred) {
-
-        factory.job().with{
+    def createReleaseJob(DslFactory factory) {
+        dslFactory = factory
+        this.job = dslFactory.job("FROMCLASS-jenkinstest-merge-release-to-master-and-develop")
+        job.with{
             parameters {
                 gitParam('VERSION') {
                     description('description')
@@ -81,31 +84,32 @@ class JobGenerator {
             }
 
         }
-        withScm(job, 'release-$VERSION', false, cred)
+        withScm('release-$VERSION', false)
+        withTrigger()
     }
 
-    static def createBuildJob(Job job, String branchName, String cred) {
-//        def job = freeStyleJob("FROMCLASS-$project-build-branch-${branchName}")
-        withScm(job, branchName, false, cred)
-        job
-        .with {
-            publishers {
-                extendedEmail {
-                    defaultSubject('$DEFAULT_SUBJECT')
-                    defaultContent('$DEFAULT_CONTENT')
-                    triggers {
-                        failure() {
-                            sendTo {
-                                culprits()
-                            }
-                        }
-                    }
-                }
-            }
-            steps {
-                maven('-e clean package')
-            }
-        }
-        withTrigger(job)
-    }
+//    static def createBuildJob(Job job, String branchName, String cred) {
+////        def job = freeStyleJob("FROMCLASS-$project-build-branch-${branchName}")
+//        withScm(job, branchName, false, cred)
+//        job
+//        .with {
+//            publishers {
+//                extendedEmail {
+//                    defaultSubject('$DEFAULT_SUBJECT')
+//                    defaultContent('$DEFAULT_CONTENT')
+//                    triggers {
+//                        failure() {
+//                            sendTo {
+//                                culprits()
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//            steps {
+//                maven('-e clean package')
+//            }
+//        }
+//        withTrigger(job)
+//    }
 }
